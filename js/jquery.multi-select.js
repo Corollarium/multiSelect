@@ -206,15 +206,14 @@
 
 		removeOptions: function(options) {
 			var that = this;
-			(Array.isArray(options) ? options : [options]).forEach(function(option, index) {
+			(Array.isArray(options) ? options : [options]).forEach(function(option) {
 				// Option value needs to be passed through that.sanitize first.
 				option.id = that.sanitize(option.value);
 
 				var $opt = that.$element.find("option[value='" + option.value + "']");
 				if ($opt.length){
-					$opt.remove();
-					// and now the below works properly...
-					that.$container.find("ul.ms-list [id^='" + option.id + "']").remove();
+					var base = 'ul.ms-list #' + option.id;
+					that.$container.find(base + '-selectable, ' + base + '-selection').add($opt).remove();
 				}
 			});
 		},
