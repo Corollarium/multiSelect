@@ -96,7 +96,7 @@
 			}
 		},
 
-		'generateLisFromOption': function (option, index, $container) {
+		generateLisFromOption: function (option, index, $container) {
 			var that = this,
 				ms = that.$element,
 				attributes = "",
@@ -176,18 +176,21 @@
 			}
 		},
 
-		'addOption': function (options) {
+		addOption: function (options) {
 			var that = this;
 
 			if (options.value !== undefined && options.value !== null) {
 				options = [options];
 			}
-			$.each(options, function (index, option) {
+			$.each(options, function(index, option) {
 				if (option.value !== undefined && option.value !== null &&
 					that.$element.find("option[value='" + option.value + "']").length === 0) {
-					var $option = $('<option value="' + option.value + '">' + option.text + '</option>'),
-						$container = option.nested === undefined ? that.$element : $("optgroup[label='" + option.nested + "']"),
-						index = parseInt((typeof option.index === 'undefined' ? $container.children().length : option.index));
+					var $option = $('<option value="' + option.value + '">' + option.text + '</option>');
+					var $container = (
+							option.nested === undefined ? that.$element : $("optgroup[label='" + option.nested + "']")
+						);
+					var _index = parseInt((typeof option.index === 'undefined' ?
+						$container.children().length : option.index));
 
 					if (option.optionClass) {
 						$option.addClass(option.optionClass);
@@ -197,17 +200,17 @@
 						$option.prop('disabled', true);
 					}
 
-					$option.insertAt(index, $container);
-					that.generateLisFromOption($option.get(0), index, option.nested);
+					$option.insertAt(_index, $container);
+					that.generateLisFromOption($option.get(0), _index, option.nested);
 				}
 			});
 		},
 
-		'escapeHTML': function (text) {
+		escapeHTML: function (text) {
 			return $("<div>").text(text).html();
 		},
 
-		'activeKeyboard': function ($list) {
+		activeKeyboard: function ($list) {
 			var that = this;
 
 			$list.on('focus', function () {
@@ -252,7 +255,7 @@
 				});
 		},
 
-		'moveHighlight': function ($list, direction) {
+		moveHighlight: function ($list, direction) {
 			var $elems = $list.find(this.elemsSelector),
 				$currElem = $elems.filter('.ms-hover'),
 				$nextElem = null,
@@ -280,15 +283,16 @@
 						$nextElem = $elems.first();
 					}
 				}
-			} else if (direction === -1) { // UP
+			}
+			else if (direction === -1) { // UP
 
 				$nextElem = $currElem.prevAll(this.elemsSelector).first();
 				if ($nextElem.length === 0) {
-					var $optgroupUl = $currElem.parent();
+					var $subOptgroupUl = $currElem.parent();
 
-					if ($optgroupUl.hasClass('ms-optgroup')) {
-						var $optgroupLi = $optgroupUl.parent(),
-							$prevOptgroupLi = $optgroupLi.prev(':visible');
+					if ($subOptgroupUl.hasClass('ms-optgroup')) {
+						var $subOptgroupLi = $subOptgroupUl.parent(),
+							$prevOptgroupLi = $subOptgroupLi.prev(':visible');
 
 						if ($prevOptgroupLi.length > 0) {
 							$nextElem = $prevOptgroupLi.find(this.elemsSelector).last();
@@ -309,7 +313,7 @@
 			}
 		},
 
-		'selectHighlighted': function ($list) {
+		selectHighlighted: function ($list) {
 			var $elems = $list.find(this.elemsSelector),
 				$highlightedElem = $elems.filter('.ms-hover').first();
 
@@ -323,7 +327,7 @@
 			}
 		},
 
-		'switchList': function ($list) {
+		switchList: function ($list) {
 			$list.blur();
 			this.$container.find(this.elemsSelector).removeClass('ms-hover');
 			if ($list.parent().hasClass('ms-selectable')) {
@@ -333,7 +337,7 @@
 			}
 		},
 
-		'activeMouse': function ($list) {
+		activeMouse: function ($list) {
 			var that = this;
 
 			this.$container.on('mouseenter', that.elemsSelector, function () {
@@ -346,19 +350,19 @@
 			});
 		},
 
-		'refresh': function () {
+		refresh: function () {
 			this.destroy();
 			this.$element.multiSelect(this.options);
 		},
 
-		'destroy': function () {
+		destroy: function () {
 			$("#ms-" + this.$element.attr("id")).remove();
 			this.$element.off('focus');
 			this.$element.css('position', '').css('left', '');
 			this.$element.removeData('multiselect');
 		},
 
-		'select': function (value, method) {
+		select: function (value, method) {
 			if (typeof value === 'string') {
 				value = [value];
 			}
@@ -420,7 +424,7 @@
 			}
 		},
 
-		'deselect': function (value) {
+		deselect: function (value) {
 			if (typeof value === 'string') {
 				value = [value];
 			}
@@ -467,7 +471,7 @@
 			}
 		},
 
-		'select_all': function () {
+		select_all: function () {
 			var ms = this.$element,
 				values = ms.val();
 
@@ -486,7 +490,7 @@
 			}
 		},
 
-		'deselect_all': function () {
+		deselect_all: function () {
 			var ms = this.$element,
 				values = ms.val();
 
@@ -503,9 +507,12 @@
 		},
 
 		sanitize: function (value) {
-			var hash = 0, i, character;
-			if (value.length == 0)
+			var hash = 0;
+			var i;
+			var character;
+			if (!value.length) {
 				return hash;
+			}
 			var ls = 0;
 			for (i = 0, ls = value.length; i < ls; i++) {
 				character = value.charCodeAt(i);
