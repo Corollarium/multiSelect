@@ -108,7 +108,7 @@
 				}
 			}
 
-			var txt = this.options.allowHTML ? $option.html() : that.escapeHTML($option.text());
+			var txt = this.options.allowHTML ? this.htmlDecode($option.html()) : that.escapeHTML($option.text());
 			var selectableLi = $('<li ' + attributes + '><span>' + txt + '</span></li>'),
 				selectedLi = selectableLi.clone(),
 				value = $option.val(),
@@ -224,6 +224,13 @@
 
 		escapeHTML: function (text) {
 			return $("<div>").text(text).html();
+		},
+
+		htmlDecode: function(input){
+			var e = document.createElement('div');
+			e.innerHTML = input;
+			// handle case of empty input
+			return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
 		},
 
 		activeKeyboard: function ($list) {
