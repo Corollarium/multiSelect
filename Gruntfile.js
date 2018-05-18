@@ -5,9 +5,9 @@ module.exports = function(grunt) {
   //src ===============================
   var src;
   config.src = src = {
-    sassMain: 'scss/multi-select.scss',
-    distFolder: 'css/multi-select.dist.css',
-    devFolder: 'css/multi-select.dev.css',
+    sassMain: 'scss/multiSelect.scss',
+    distFolder: 'css/multiSelect.dist.css',
+    devFolder: 'css/multiSelect.dev.css',
     sassFolder: 'scss/**/*.scss',
     serverPort: 8000
 

@@ -6,7 +6,7 @@
   "main": [
     "./css/multi-select.css",
     "./img/switch.png",
-    "./js/jquery.multi-select.js"
+    "./js/jquery.multiSelect.js"
   ],
   "dependencies" : {
     "jquery" : ">= 1.7.1"
