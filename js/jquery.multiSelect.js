@@ -1,20 +1,14 @@
 /*
- * MultiSelect v0.9.12
- * Copyright (c) 2012 Louis Cuny
+ * multiSelect v0.1.0
+ * Original work: Copyright (c) 2015 Louis CUNY
+ * Modified work: Copyright 2018 (c) Corollarium
  *
- * This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What The Fuck You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details.
+ * This work is licensed under the terms of the MIT license.
+ * For a copy, see <https://opensource.org/licenses/MIT>.
  */
 
 !function ($) {
-	"use strict";
-
-
-	/* MULTISELECT CLASS DEFINITION
-	 * ====================== */
+	'use strict';
 
 	var MultiSelect = function (element, options) {
 		this.options = options;

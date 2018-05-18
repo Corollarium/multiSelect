@@ -1,8 +1,8 @@
 {
-  "name": "multiselect",
-  "version": "0.9.12",
+  "name": "multiselect-corollarium",
+  "version": "0.1.0",
   "description" : "A user-friendlier drop-in replacement for the standard select with multiple attribute activated.",
-  "license" : "WTFPL",
+  "license" : "MIT",
   "main": [
     "./css/multi-select.css",
     "./img/switch.png",
