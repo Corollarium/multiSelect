@@ -176,21 +176,19 @@
 			}
 		},
 
-		addOption: function (options) {
+		addOptions: function (options) {
 			var that = this;
-
-			if (options.value !== undefined && options.value !== null) {
-				options = [options];
-			}
-			$.each(options, function(index, option) {
-				if (option.value !== undefined && option.value !== null &&
-					that.$element.find("option[value='" + option.value + "']").length === 0) {
+			(Array.isArray(options) ? options : [options]).forEach(function(option, index) {
+				if (option.value !== undefined && option.value !== null
+					&& that.$element.find("option[value='" + option.value + "']").length === 0
+				) {
 					var $option = $('<option value="' + option.value + '">' + option.text + '</option>');
 					var $container = (
-							option.nested === undefined ? that.$element : $("optgroup[label='" + option.nested + "']")
-						);
-					var _index = parseInt((typeof option.index === 'undefined' ?
-						$container.children().length : option.index));
+						option.nested === undefined ? that.$element : $("optgroup[label='" + option.nested + "']")
+					);
+					var _index = parseInt(
+						(typeof option.index === 'undefined' ? $container.children().length : option.index), 10
+					);
 
 					if (option.optionClass) {
 						$option.addClass(option.optionClass);
@@ -202,6 +200,21 @@
 
 					$option.insertAt(_index, $container);
 					that.generateLisFromOption($option.get(0), _index, option.nested);
+				}
+			});
+		},
+
+		removeOptions: function(options) {
+			var that = this;
+			(Array.isArray(options) ? options : [options]).forEach(function(option, index) {
+				// Option value needs to be passed through that.sanitize first.
+				option.id = that.sanitize(option.value);
+
+				var $opt = that.$element.find("option[value='" + option.value + "']");
+				if ($opt.length){
+					$opt.remove();
+					// and now the below works properly...
+					that.$container.find("ul.ms-list [id^='" + option.id + "']").remove();
 				}
 			});
 		},
