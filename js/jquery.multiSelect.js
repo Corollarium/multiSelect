@@ -12,6 +12,10 @@
 
 	var MultiSelect = function (element, options) {
 		this.options = options;
+		if (!options.allowHTML) {
+			this.options.allowHTML = false;
+		}
+
 		this.$element = $(element);
 		this.$container = $('<div/>', {'class': "ms-container"});
 		this.$selectableContainer = $('<div/>', {'class': 'ms-selectable'});
@@ -103,7 +107,9 @@
 					attributes += attr.name + '="' + attr.value + '" ';
 				}
 			}
-			var selectableLi = $('<li ' + attributes + '><span>' + that.escapeHTML($option.text()) + '</span></li>'),
+
+			var txt = this.options.allowHTML ? $option.html() : that.escapeHTML($option.text());
+			var selectableLi = $('<li ' + attributes + '><span>' + txt + '</span></li>'),
 				selectedLi = selectableLi.clone(),
 				value = $option.val(),
 				elementId = that.sanitize(value);
@@ -177,6 +183,10 @@
 					&& that.$element.find("option[value='" + option.value + "']").length === 0
 				) {
 					var $option = $('<option value="' + option.value + '">' + option.text + '</option>');
+					if (that.options.allowHTML) {
+						$option.html(option.text);
+					}
+
 					var $container = (
 						option.nested === undefined ? that.$element : $("optgroup[label='" + option.nested + "']")
 					);

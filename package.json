@@ -1,6 +1,6 @@
 {
   "name": "multiselect-corollarium",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A user-friendlier drop-in replacement for the standard select with multiple attribute activated.",
   "main": "Gruntfile.js",
   "directories": {
